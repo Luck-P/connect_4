@@ -68,14 +68,20 @@ def win_cond(ipos,side):        #ipos : tuple (x,y) #most important step
     return False
     
 def adder(side,col):
-    if 0<=col<=grid_w-1 and 0 in grid[col] :
-        grid[col][grid[col].index(0)]=side
-        if win_cond(coord(col),side):
-            return True
-        else:return False
+    try :
+        col=int(col)-1
+    except:
+        print(f'input : {col} > column input has to be an integer')
+        return adder(side,input(f'player {side} - column : '))
     else:
-        print(f'column {col+1} is full/inexistant, pick another')
-        return adder(side,int(input(f'player {side} - column : '))-1)
+        if 0<=col<=grid_w-1 and 0 in grid[col] :
+            grid[col][grid[col].index(0)]=side
+            if win_cond(coord(col),side):
+                return True
+            else:return False
+        else:
+            print(f'column {col+1} is full/inexistant, pick another')
+            return adder(side,input(f'player {side} - column : '))
 
 def quick_disp(grid):
     for i in range(1,len(grid[0])+1):
@@ -97,7 +103,7 @@ players=(1,2)
 end=False
 while end==False:
     for side in players:
-        end= adder(side,int(input(f'player {side} to play - column : '))-1)
+        end= adder(side,input(f'player {side} to play - column : '))
         quick_disp(grid)
         if end==True:
             print(f'player {side} win')
