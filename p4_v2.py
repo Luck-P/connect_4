@@ -2,8 +2,9 @@
 
 '''
 ####################################### log #######################################
-- first commit 22/07-18:31 : seems to work ; however rigid input required
-
+- 1rst commit 22/07-18:31 : seems to work ; however rigid input required
+- 2nd commit missed :/ : flexible input 
+- 3rd commit 24/07-~4:00pm : loop optimization (seems like) -> single big 'while' loop instead of 4 smalls
 
 
 ###################################################################################
@@ -54,7 +55,6 @@ def win_cond(ipos,side):        #ipos : tuple (x,y) #most important step
             else:
                 th_bltr=False
             i+=1
-            print(f'debug (loop {direction}): vt_count = {vt_count} ; hz_count = {hz_count} ; tl_br = {tl_br} ; bl_tr = {bl_tr}')
 
     for w in (vt_count,hz_count,tl_br,bl_tr):
         if w>=4:
