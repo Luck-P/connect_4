@@ -2,9 +2,10 @@
 
 '''
 ####################################### log #######################################
-- first commit 22/07-18:31 : seems to work ; however rigid input required
-
-
+- 1rst commit 22/07-18:31 : seems to work ; however rigid input required
+- 2nd commit missed :/ : flexible input 
+- 3rd commit 24/07-~4:00pm : loop optimization (seems like) -> single big 'while' loop instead of 4 smalls
+- 4th commit 06/08 7:15pm : added 'if main == main' -> now importable (almost)
 
 ###################################################################################
 '''
@@ -28,39 +29,32 @@ def win_cond(ipos,side):        #ipos : tuple (x,y) #most important step
     hz_count=1
     tl_br=1
     bl_tr=1
-    i=1 
-    while 'checking the column':
-        if y-i>=0 and grid[x][y-i]==side:
-            vt_count+=1
-            i+=1
-        else:break
-
-    #checking the line : toggle -> check right then left 
-
-    for direction in tgl:
-        i=1
-        while 'checking the line':
-            if 0<=x+(direction*i)<len(grid) and grid[x+(direction*i)][y]==side:
-                hz_count+=1;i+=1
-            else:break
-
-    #checking the first diag : top-left to bot-right 
-
-    for direction in tgl:
-        i=1
-        while 'checking the \ diagonal ':
-            if 0<=x+(direction*i)<len(grid) and 0<=y-(direction*i)<len(grid[x]) and grid[x+(direction*i)][y-(direction*i)]==side:  #x+i ; y-i then x-i ; y+i -> checking the \ diagonal  
-                tl_br+=1;i+=1
-            else:break
     
-    #checking the second diag : bot-left to top-right 
-
     for direction in tgl:
         i=1
-        while "checking the / diagonal ":
-            if 0<=x+(direction*i)<len(grid) and 0<=y+(direction*i)<len(grid[x]) and grid[x+(direction*i)][y+(direction*i)]==side:
-                bl_tr+=1;i+=1
-            else:break
+        th_vt=th_hz=th_tlbr=th_bltr=True
+        while th_vt==True or th_hz==True or th_tlbr==True or th_bltr==True:
+
+            if th_vt==True and 0<=y+(direction*i)<len(grid[x]) and grid[x][y+(direction*i)]==side: #checking column (upward useless but opti 'while' loop )
+                vt_count+=1
+            else:           #issue : adding 1 pt for nothing ? 
+                th_vt=False
+
+            if th_hz==True and 0<=x+(direction*i)<len(grid) and grid[x+(direction*i)][y]==side: #checking sides
+                hz_count+=1
+            else:
+                th_hz=False
+
+            if th_tlbr==True and 0<=x+(direction*i)<len(grid) and 0<=y-(direction*i)<len(grid[x]) and grid[x+(direction*i)][y-(direction*i)]==side:  #x+i ; y-i then x-i ; y+i -> checking the \ diagonal  
+                tl_br+=1
+            else:
+                th_tlbr=False
+        
+            if th_bltr==True and 0<=x+(direction*i)<len(grid) and 0<=y+(direction*i)<len(grid[x]) and grid[x+(direction*i)][y+(direction*i)]==side:  #x+i ; y+i then x-i ; y-i -> checking the / diagonal  
+                bl_tr+=1
+            else:
+                th_bltr=False
+            i+=1
 
     for w in (vt_count,hz_count,tl_br,bl_tr):
         if w>=4:
@@ -98,15 +92,16 @@ def quick_disp(grid):
 
 
 #################################################### DEBUG ####################################################
-quick_disp(grid)
-players=(1,2)
-end=False
-while end==False:
-    for side in players:
-        end= adder(side,input(f'player {side} to play - column : '))
-        quick_disp(grid)
-        if end==True:
-            print(f'player {side} win')
-            break
+if __name__=='__main__':
+    quick_disp(grid)
+    players=(1,2)
+    end=False
+    while end==False:
+        for side in players:
+            end= adder(side,input(f'player {side} to play - column : '))
+            quick_disp(grid)
+            if end==True:
+                print(f'player {side} win')
+                break
     
     
