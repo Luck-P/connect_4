@@ -5,7 +5,7 @@
 - 1rst commit 22/07-18:31 : seems to work ; however rigid input required
 - 2nd commit missed :/ : flexible input 
 - 3rd commit 24/07-~4:00pm : loop optimization (seems like) -> single big 'while' loop instead of 4 smalls
-
+- 4th commit 06/08 7:15pm : added 'if main == main' -> now importable (almost)
 
 ###################################################################################
 '''
@@ -92,15 +92,16 @@ def quick_disp(grid):
 
 
 #################################################### DEBUG ####################################################
-quick_disp(grid)
-players=(1,2)
-end=False
-while end==False:
-    for side in players:
-        end= adder(side,input(f'player {side} to play - column : '))
-        quick_disp(grid)
-        if end==True:
-            print(f'player {side} win')
-            break
+if __name__=='__main__':
+    quick_disp(grid)
+    players=(1,2)
+    end=False
+    while end==False:
+        for side in players:
+            end= adder(side,input(f'player {side} to play - column : '))
+            quick_disp(grid)
+            if end==True:
+                print(f'player {side} win')
+                break
     
     
