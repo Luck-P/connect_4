@@ -6,13 +6,14 @@
 - 2nd commit missed :/ : flexible input 
 - 3rd commit 24/07-~4:00pm : loop optimization (seems like) -> single big 'while' loop instead of 4 smalls
 - 4th commit 06/08 7:15pm : added 'if main == main' -> now importable (almost)
-
+- 5th commit 07/08 12:46pm : dimension inputs in 'if m==m' -> now imported in gui
 ###################################################################################
 '''
 
 #gameboard : input = grid dimensions // each list a column  
-grid_w,grid_h=input('width x height : ').split("x");grid_w,grid_h=int(grid_w),int(grid_h)
-global grid ; grid=[[0 for i in range(grid_h)] for i in range(grid_w)]
+
+def grider(grid_h,grid_w):
+    global grid ; grid=[[0 for i in range(grid_h)] for i in range(grid_w)]
 
 def coord(last_col):
     x=last_col
@@ -93,6 +94,8 @@ def quick_disp(grid):
 
 #################################################### DEBUG ####################################################
 if __name__=='__main__':
+    grid_w,grid_h=input('width x height : ').split("x");grid_w,grid_h=int(grid_w),int(grid_h)
+    grider(grid_h,grid_w)
     quick_disp(grid)
     players=(1,2)
     end=False
