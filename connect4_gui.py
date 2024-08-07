@@ -4,10 +4,22 @@ def display(grid,dim):
     import tkinter as tk
     import p4_v2 as c4
 
-    def token_placer(color,x,y):
+    def blank_disp():
+        for i in range(dim[0]):               #creating a graphic column for each connect_4 grid column 
+            board_f.columnconfigure(i,weight=1)
+        for row in range(dim[1]):               #improvement : packing this in a function -> clearer code 
+            for col in range(dim[0]):
+                token_placer('white',col,row,setup=True)
+
+    def token_placer(color,x,y,setup=False):
         token=tk.Canvas(master=board_f,height=100,width=100,border=0)
         token.create_oval(2,2,99,99,fill=color)
         token.grid(column=x,row=y,sticky='NSEW',pady=10,padx=5)
+        if setup==True:         #first occurence > creating a blank grid + binding every blank places to 'token add"
+            token.bind('<Button-1>',lambda event: token_adder(event,x) ) 
+    
+    def token_adder(event,column):
+        print(f'quoicouclick at {column}')
 
     def killer():
         instance.destroy()
@@ -35,11 +47,7 @@ def display(grid,dim):
 
     board_f=tk.Frame(master=main_frame)
 
-    for i in range(dim[0]):               #creating a graphic column for each connect_4 grid column 
-        board_f.columnconfigure(i,weight=1)
-    for row in range(dim[1]):
-        for col in range(dim[0]):
-            token_placer('white',col,row)
+    blank_disp()                #creating the blank grid + binding every blank space 
 
     board_f.grid(column=0,sticky='NW',padx=(30,0))
 
