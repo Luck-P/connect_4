@@ -14,6 +14,7 @@
 
 def grider(grid_h,grid_w):
     global grid ; grid=[[0 for i in range(grid_h)] for i in range(grid_w)]
+    return grid
 
 def coord(last_col):
     x=last_col
@@ -63,20 +64,7 @@ def win_cond(ipos,side):        #ipos : tuple (x,y) #most important step
     return False
     
 def adder(side,col):
-    try :
-        col=int(col)-1
-    except:
-        print(f'input : {col} > column input has to be an integer')
-        return adder(side,input(f'player {side} - column : '))
-    else:
-        if 0<=col<=grid_w-1 and 0 in grid[col] :
-            grid[col][grid[col].index(0)]=side
-            if win_cond(coord(col),side):
-                return True
-            else:return False
-        else:
-            print(f'column {col+1} is full/inexistant, pick another')
-            return adder(side,input(f'player {side} - column : '))
+    grid[col][grid[col].index(0)]=side
 
 def quick_disp(grid):
     for i in range(1,len(grid[0])+1):
