@@ -1,5 +1,8 @@
 import p4_v2 as c4
 
+def starter_out():
+    display(c4.grider(6,7))
+
 def display(grid):
 
     import tkinter as tk 
@@ -37,7 +40,7 @@ def display(grid):
             win_msg=tk.Label(master=main_frame,text=f'player {cur_side} wins !',font=('Arial',60),fg='red')
             win_msg.grid(column=1,row=0,sticky='NSEW',padx=(0,20))
             for w in board_f.winfo_children():
-                w.configure(state='-disabled')
+                w.unbind('<Button-1>')
         else:
             side_toggle()
             player_label=tk.Label(master=main_frame,text=f'player {cur_side}\'s turn',font=('Modern No. 20',50))
@@ -45,6 +48,10 @@ def display(grid):
             
     def killer():
         instance.destroy()
+
+    def restarter(event):
+        instance.destroy()
+        starter_out()
 
 ########################################### Tkinter area ###########################################
 
@@ -61,8 +68,9 @@ def display(grid):
     exit_b=tk.Button(master=title_f,text='exit',bg='red',fg='white',font=('Arial',10),command=killer)
     exit_b.grid(column=1,row=0,sticky='NSEW')
 
-    menu_b=tk.Button(master=title_f,text='menu',bg='white',font=('Arial',10))
-    menu_b.grid(column=1,row=1,sticky='NSEW')
+    restart_b=tk.Button(master=title_f,text='restart',bg='white',font=('Arial',10))
+    restart_b.bind('<Button-1>',restarter)
+    restart_b.grid(column=1,row=1,sticky='NSEW')
 
     title_f.pack(side='top',fill='x',pady=(0,20))
 
@@ -96,6 +104,6 @@ def display(grid):
 
 ############################################ __name__==__main__ ############################################
 if __name__=='__main__':
-    display(c4.grider(6,7))
+    starter_out()
 
 
